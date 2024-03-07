@@ -1,0 +1,22 @@
+// This code is for refreshing specific containers to update the queue
+
+
+useEffect(() => {
+    const socket = new WebSocket('ws://localhost:8080');
+
+    socket.onopen = () => {
+        console.log('WebSocket connected');
+    };
+
+    socket.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        if (data.type === 'queue-update') {
+            // Handle queue update, e.g., trigger a refresh
+            // You can use useState to update the component
+        }
+    };
+
+    return () => {
+        socket.close();
+    };
+}, []);

@@ -7,8 +7,9 @@ export default function CustView() {
 
     const [queue, setQueue] = useState<number[]>([]);
     const [counterQueue, setCounterQueue] = useState<number[]>([]);
-    const [counterStatus, setCounterStatus] = useState<boolean[]>([false, false, false, false]);
-
+    const [counterStatus, setCounterStatus] =     useState<boolean[]>([false, false, false, false]);
+    
+    const [isAutoRefresh, setIsAutoRefresh] = useState(true);
 
 
     async function fetchQueue(): Promise<void> {
@@ -133,13 +134,25 @@ export default function CustView() {
     //     };
     // },);
 
-    useEffect(() => {
-        const intervalId = setInterval(() => {
-            LoadAllData();
-        }, 1500);
+
+
+    //Toggle function to enable/disable autorefresh
     
+    useEffect(() => {
+        let intervalId;
+
+        if (isAutoRefresh) {
+            intervalId = setInterval(() => {
+                LoadAllData();
+            }, 1500);
+        }
         return () => clearInterval(intervalId);
-    }, []);
+    }
+    , [isAutoRefresh]);
+
+    const handleToggleAutoRefresh = () => {
+        setIsAutoRefresh(!isAutoRefresh); //setOpposite
+    };
     
 
     //update counter status on UI after array overridden
@@ -148,9 +161,12 @@ export default function CustView() {
     }, [counterStatus]);
 
 
+
     return (<div>
         <h1>Customer View</h1>
-
+        <button onClick={handleToggleAutoRefresh}>
+            {isAutoRefresh ? 'Pause Auto Refresh' : 'Start Auto Refresh'}
+        </button>
         <div className="cust-view">
             <div className="main-panel">
                 Now Serving:<br />

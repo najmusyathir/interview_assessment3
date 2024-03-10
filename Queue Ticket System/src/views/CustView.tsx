@@ -1,7 +1,7 @@
 import Counters from "../componenets/CounterDisplay"
 import './css/CustView.css'
 import { useState, useEffect } from "react";
-import { WebSocketMessage } from '../componenets/WebSocket';
+//import { WebSocketMessage } from '../componenets/WebSocket';
 
 export default function CustView() {
 
@@ -117,21 +117,30 @@ export default function CustView() {
         fetchInitialCounterStatus();
     }, []);
 
-    //open websocket
+    //open websocket - Canceled
+    // useEffect(() => {
+    //     const socket = new WebSocket('ws://localhost:8080');
+    //     socket.onopen = () => {
+    //     };
+    //     socket.onmessage = (event) => {
+    //         const message: WebSocketMessage = JSON.parse(event.data);
+
+    //         if (message.action === 'loadQueue') LoadAllData();
+
+    //     };
+    //     return () => {
+    //         socket.close();
+    //     };
+    // },);
+
     useEffect(() => {
-        const socket = new WebSocket('ws://localhost:8080');
-        socket.onopen = () => {
-        };
-        socket.onmessage = (event) => {
-            const message: WebSocketMessage = JSON.parse(event.data);
-
-            if (message.action === 'loadQueue') LoadAllData();
-
-        };
-        return () => {
-            socket.close();
-        };
-    },);
+        const intervalId = setInterval(() => {
+            LoadAllData();
+        }, 1500);
+    
+        return () => clearInterval(intervalId);
+    }, []);
+    
 
     //update counter status on UI after array overridden
     useEffect(() => {

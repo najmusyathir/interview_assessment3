@@ -11,10 +11,11 @@ export default function CustView() {
     
     const [isAutoRefresh, setIsAutoRefresh] = useState(true);
 
+    const nodeJS = "https://nodejs-queue-system.onrender.com/";
 
     async function fetchQueue(): Promise<void> {
         try {
-            const response = await fetch("http://localhost:3000/queue");
+            const response = await fetch(`${nodeJS}queue`);
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
@@ -28,7 +29,7 @@ export default function CustView() {
 
     async function fetchCounterQueue(): Promise<void> {
         try {
-            const response = await fetch("http://localhost:3000/counterQueue");
+            const response = await fetch(`${nodeJS}counterQueue`);
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
@@ -43,7 +44,7 @@ export default function CustView() {
 
     async function fetchCounterStatus(): Promise<void> {
         try {
-            const response = await fetch("http://localhost:3000/counterStatus");
+            const response = await fetch(`${nodeJS}counterStatus`);
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
@@ -57,7 +58,7 @@ export default function CustView() {
 
     async function AddQueue() {
         try {
-            const response = await window.fetch('http://localhost:3000/insertQueue', {
+            const response = await window.fetch(`${nodeJS}insertQueue`, {
                 method: 'POST',
                 headers: {
                     'content-type': 'application/json;charset=UTF-8'
@@ -154,13 +155,10 @@ export default function CustView() {
         setIsAutoRefresh(!isAutoRefresh); //setOpposite
     };
     
-
     //update counter status on UI after array overridden
     useEffect(() => {
         SetOffline(counterStatus);
     }, [counterStatus]);
-
-
 
     return (<div>
         <h1>Customer View</h1>
@@ -175,7 +173,6 @@ export default function CustView() {
                 <button onClick={AddQueue}>
                     Take a Number
                 </button>
-
             </div>
 
             <div className="counters">

@@ -3,13 +3,14 @@ import { useState } from 'react';
 
 export default function CounterManager({ counterNo = 0 }) {
 
+    const nodeJS = "https://nodejs-queue-system.onrender.com/"; 
     
     const [statusDisplay, setStatusDisplay] = useState("Close Counter");
     const [counterStatus, setCounterStatus] = useState<boolean[]>([false, false, false, false]);
 
     async function fetchCounterStatus(): Promise<void> {
         try {
-            const response = await fetch("http://localhost:3000/counterStatus");
+            const response = await fetch(`${nodeJS}counterStatus`);
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
@@ -24,7 +25,7 @@ export default function CounterManager({ counterNo = 0 }) {
     async function ToggleCounterStatus() {
 
         try {
-            const response = await window.fetch('http://localhost:3000/counterActiveStatus', {
+            const response = await window.fetch(`${nodeJS}counterActiveStatus`, {
                 method: 'POST',
                 headers: {
                     'content-type': 'application/json;charset=UTF-8'
@@ -51,7 +52,7 @@ export default function CounterManager({ counterNo = 0 }) {
 
     async function AddQueuetoCounter() {
         try {
-            const response = await window.fetch('http://localhost:3000/insertQueueInCounter', {
+            const response = await window.fetch(`${nodeJS}insertQueueInCounter`, {
                 method: 'POST',
                 headers: {
                     'content-type': 'application/json;charset=UTF-8'
@@ -71,7 +72,7 @@ export default function CounterManager({ counterNo = 0 }) {
 
     async function CompleteServe() {
         try {
-            const response = await window.fetch('http://localhost:3000/removeQueueFromCounter', {
+            const response = await window.fetch(`${nodeJS}removeQueueFromCounter`, {
                 method: 'POST',
                 headers: {
                     'content-type': 'application/json;charset=UTF-8'
